@@ -1,0 +1,36 @@
+{
+  "name": "api-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "node-sass-middleware": "0.11.0"
+  },
+  "description": "api server",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/xiangrenya/api-server.git"
+  },
+  "keywords": [
+    "node",
+    "mongodb",
+    "express",
+    "api"
+  ],
+  "author": "xiangrenya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xiangrenya/api-server/issues"
+  },
+  "homepage": "https://github.com/xiangrenya/api-server#readme"
+}
