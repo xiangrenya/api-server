@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
-    "start": "PORT=4000 pm2 ./bin/www"
+    "start": "PORT=4000 pm2 start ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
