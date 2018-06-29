@@ -1,18 +1,18 @@
 const Tomato = require('../models/tomato.model');
 /**
- * Load tomato and append to req.
+ * 获取番茄详情挂到req对象的属性，供查询、更新、删除用
  */
 function load(req, res, next, id) {
   Tomato.get(id)
     .then((tomato) => {
-      req.tomato = tomato; // eslint-disable-line no-param-reassign
+      req.tomato = tomato;
       return next();
     })
     .catch(e => next(e));
 }
 
 /**
- * Get tomato
+ * 获取番茄详情
  * @returns {Tomato}
  */
 function get(req, res) {
@@ -20,9 +20,12 @@ function get(req, res) {
 }
 
 /**
- * Create new tomato
- * @property {string} req.body.username - The username of tomato.
- * @property {string} req.body.mobileNumber - The mobileNumber of tomato.
+ * 创建番茄
+ * @property {string} req.body.title - 标题.
+ * @property {string} req.body.content - 内容
+ * @property {string} req.body.duration - 持续时间
+ * @property {string} req.body.status - 状态
+ * @property {string} req.body.startTime - 开始时间
  * @returns {Tomato}
  */
 function create(req, res, next) {
@@ -37,43 +40,42 @@ function create(req, res, next) {
     status,
     startTime,
   });
-
   tomato.save()
     .then(savedTomato => res.json(savedTomato))
     .catch(e => next(e));
 }
 
 /**
- * Update existing tomato
- * @property {string} req.body.username - The username of tomato.
- * @property {string} req.body.mobileNumber - The mobileNumber of tomato.
+ * 更新番茄
+ * @property {string} req.tomato - 要更新的番茄
  * @returns {Tomato}
  */
 function update(req, res, next) {
   const { tomato } = req;
-  tomato.username = req.body.username;
-  tomato.mobileNumber = req.body.mobileNumber;
-
-  tomato.save()
-    .then(savedUser => res.json(savedUser))
+  const newTomato = {
+    ...tomato,
+    ...req.body,
+  };
+  newTomato.save()
+    .then(updatedTomato => res.json(updatedTomato))
     .catch(e => next(e));
 }
 
 /**
- * Get tomato list.
- * @property {number} req.query.skip - Number of tomatoes to be skipped.
- * @property {number} req.query.limit - Limit number of tomatoes to be returned.
+ * 获取番茄列表（带分页）
+ * @property {number} req.query.offset - 偏移量
+ * @property {number} req.query.limit - 每页个数.
  * @returns {Tomato[]}
  */
 function list(req, res, next) {
-  const { limit = 5, skip = 0 } = req.query;
-  Tomato.list({ limit, skip })
+  const { limit = 5, offset = 0 } = req.query;
+  Tomato.list({ limit, skip: offset })
     .then(tomatoes => res.json(tomatoes))
     .catch(e => next(e));
 }
 
 /**
- * Delete tomato.
+ * 删除番茄
  * @returns {Tomato}
  */
 function remove(req, res, next) {
