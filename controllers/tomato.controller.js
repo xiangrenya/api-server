@@ -52,11 +52,14 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const { tomato } = req;
-  const newTomato = {
-    ...tomato,
-    ...req.body,
-  };
-  newTomato.save()
+  const { title, content, duration } = req.body;
+  const updateBody = { title, content, duration };
+  Object.keys(updateBody).forEach((key) => {
+    if (key) {
+      tomato[key] = updateBody[key];
+    }
+  });
+  tomato.save()
     .then(updatedTomato => res.json(updatedTomato))
     .catch(e => next(e));
 }
