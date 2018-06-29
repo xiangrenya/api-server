@@ -1,7 +1,6 @@
+const createError = require('http-errors');
 const mongoose = require('mongoose');
-/**
- * Tomato Schema
- */
+
 const TomatoSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -16,7 +15,7 @@ const TomatoSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: Number, // -1：未开始，0：未完成，1：已完成，2：进行中
+    type: Number, // -1：预备中，0：未完成，1：已完成，2：进行中，3全部
     required: true,
   },
   startTime: {
@@ -28,22 +27,9 @@ const TomatoSchema = new mongoose.Schema({
   },
 });
 
-/**
- * Add your
- * - pre-save hooks
- * - validations
- * - virtuals
- */
-
-/**
- * Methods
- */
 TomatoSchema.method({
 });
 
-/**
- * Statics
- */
 TomatoSchema.statics = {
   /**
    * Get tomato
@@ -57,7 +43,8 @@ TomatoSchema.statics = {
         if (tomato) {
           return tomato;
         }
-        return {};
+        const err = createError(404, 'No such tomato exists!');
+        return Promise.reject(err);
       });
   },
 
@@ -76,7 +63,4 @@ TomatoSchema.statics = {
   },
 };
 
-/**
- * @typedef Tomato
- */
 module.exports = mongoose.model('Tomato', TomatoSchema);
