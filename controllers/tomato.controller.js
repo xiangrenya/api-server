@@ -2,22 +2,20 @@ const Tomato = require('../models/tomato.model');
 /**
  * 获取番茄详情挂到req对象的属性，供查询、更新、删除用
  */
-function load(req, res, next, id) {
+const load = (req, res, next, id) => {
   Tomato.get(id)
     .then((tomato) => {
       req.tomato = tomato;
       return next();
     })
     .catch(e => next(e));
-}
+};
 
 /**
  * 获取番茄详情
  * @returns {Tomato}
  */
-function get(req, res) {
-  return res.json(req.tomato);
-}
+const get = (req, res) => res.json(req.tomato);
 
 /**
  * 创建番茄
@@ -28,7 +26,7 @@ function get(req, res) {
  * @property {string} req.body.startTime - 开始时间
  * @returns {Tomato}
  */
-function create(req, res, next) {
+const create = (req, res, next) => {
   const {
     title, content, duration, status,
   } = req.body;
@@ -43,14 +41,14 @@ function create(req, res, next) {
   tomato.save()
     .then(savedTomato => res.json(savedTomato))
     .catch(e => next(e));
-}
+};
 
 /**
  * 更新番茄
  * @property {string} req.tomato - 要更新的番茄
  * @returns {Tomato}
  */
-function update(req, res, next) {
+const update = (req, res, next) => {
   const { tomato } = req;
   const { title, content, duration } = req.body;
   const updateBody = { title, content, duration };
@@ -62,7 +60,7 @@ function update(req, res, next) {
   tomato.save()
     .then(updatedTomato => res.json(updatedTomato))
     .catch(e => next(e));
-}
+};
 
 /**
  * 获取番茄列表（带分页）
@@ -70,24 +68,29 @@ function update(req, res, next) {
  * @property {number} req.query.limit - 每页个数.
  * @returns {Tomato[]}
  */
-function list(req, res, next) {
+const list = (req, res, next) => {
   const { limit = 5, offset = 0 } = req.query;
   Tomato.list({ limit, skip: offset })
     .then(tomatoes => res.json(tomatoes))
     .catch(e => next(e));
-}
+};
 
 /**
  * 删除番茄
  * @returns {Tomato}
  */
-function remove(req, res, next) {
+const remove = (req, res, next) => {
   const { tomato } = req;
   tomato.remove()
     .then(deletedTomato => res.json(deletedTomato))
     .catch(e => next(e));
-}
+};
 
 module.exports = {
-  load, get, create, update, list, remove,
+  load,
+  get,
+  create,
+  update,
+  list,
+  remove,
 };
