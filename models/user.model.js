@@ -34,11 +34,11 @@ UserSchema.method({
 UserSchema.statics = {
 
   /**
-   * Get user
-   * @param {ObjectId} id - The objectId of user.
+   * 获取用户详情
+   * @param {ObjectId} id - 用户id.
    * @returns {Promise<User, APIError>}
    */
-  getById(id) {
+  get(id) {
     return this.findById(id)
       .exec()
       .then((user) => {
@@ -51,11 +51,11 @@ UserSchema.statics = {
   },
 
   /**
-   * 判断用户是否已存在
+   * 判断用户名是否存在
    * @param {string} username - 用户名
    * @returns {Promise<User, APIError>}
    */
-  isUserExsit(username) {
+  isRepeatedUserName(username) {
     return this.findOne({ username })
       .exec()
       .then((user) => {
@@ -68,12 +68,12 @@ UserSchema.statics = {
   },
 
   /**
-   * Get user by
+   * 验证用户名密码是否匹配
    * @param {string} username - 用户名
    * @param {string} password - 加密后密码
    * @returns {Promise<User, APIError>}
    */
-  getByUsernameAndPassword(username, password) {
+  login(username, password) {
     return this.findOne({ username, password })
       .exec()
       .then((user) => {
