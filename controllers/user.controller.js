@@ -5,7 +5,7 @@ const crypto = require('../utils/crypto');
  * 获取用户详情挂到req对象的属性，供查询、更新、删除用
  */
 const load = (req, res, next, id) => {
-  User.getById(id)
+  User.get(id)
     .then((user) => {
       req.user = user;
       return next();
@@ -32,8 +32,8 @@ const signup = async (req, res, next) => {
     username, password, mobile, email,
   } = req.body;
   try {
-    const isUserExsit = await User.isUserExsit(username);
-    if (!isUserExsit) {
+    const isRepeatedUserName = await User.isRepeatedUserName(username);
+    if (!isRepeatedUserName) {
       const user = new User({
         username,
         password: crypto.encryptPassword(password),
@@ -59,14 +59,15 @@ const login = (req, res, next) => {
   const {
     username, password,
   } = req.body;
-  User.getByUsernameAndPassword(username, crypto.encryptPassword(password))
+  User.login(username, crypto.encryptPassword(password))
     .then(user => res.json(user))
     .catch(e => next(e));
 };
 
 /**
- * 更新用户信息
+ * 更新用户信息（部分更新）
  * @property {string} req.user - 要更新的用户
+ * @property {string} req.body - 要更新的键值对
  * @returns {User}
  */
 const update = (req, res, next) => {
