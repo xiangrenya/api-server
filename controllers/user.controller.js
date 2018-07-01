@@ -40,9 +40,7 @@ const signup = async (req, res, next) => {
         mobile,
         email,
       });
-      user.save()
-        .then(savedUser => res.json(savedUser))
-        .catch(e => next(e));
+      user.save().then(savedUser => res.json(savedUser));
     }
   } catch (e) {
     next(e);
