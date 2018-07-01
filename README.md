@@ -38,7 +38,10 @@ eslint init // 选择airbnb定义的规范
 
 ## 开发过程中遇到的坑
  
-node-sass安装失败
+### node-sass安装失败
 mac或linux系统直接通过一下命令安装
 `SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install node-sass`
 参考资料：[https://github.com/lmk123/blog/issues/28](https://github.com/lmk123/blog/issues/28)
+
+### 异常处理
+异常处理中`app.use((err, req, res, next) => {});`中的next参数不能丢，虽然没有用上，但是如果没有这个参数，程序根本捕获不了异常，为了找出这个问题，耗费我太多时间。
