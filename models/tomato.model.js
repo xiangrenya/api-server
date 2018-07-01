@@ -32,8 +32,8 @@ TomatoSchema.method({
 
 TomatoSchema.statics = {
   /**
-   * Get tomato
-   * @param {ObjectId} id - The objectId of tomato.
+   * 获取番茄详情
+   * @param {ObjectId} id - 番茄id
    * @returns {Promise<tomato>}
    */
   get(id) {
@@ -43,20 +43,20 @@ TomatoSchema.statics = {
         if (tomato) {
           return tomato;
         }
-        const err = createError(404, 'No such tomato exists!');
+        const err = createError(404, '此番茄不存在');
         return Promise.reject(err);
       });
   },
 
   /**
-   * List tomatos in descending order of 'createdAt' timestamp.
-   * @param {number} skip - Number of tomatos to be skipped.
-   * @param {number} limit - Limit number of tomatos to be returned.
+   * 番茄列表（支持分页，创建时间倒序排列）
+   * @param {number} skip - 偏移量.
+   * @param {number} limit - 每页个数
    * @returns {Promise<tomato[]>}
    */
   list({ skip = 0, limit = 5 } = {}) {
     return this.find()
-      .sort({ createdAt: -1 })
+      .sort({ createdDate: -1 })
       .skip(+skip)
       .limit(+limit)
       .exec();
