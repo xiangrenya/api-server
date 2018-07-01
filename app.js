@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const indexRouter = require('./routes/index.route');
 const config = require('./config/');
-// connect to mongodb
+// 连接mongodb数据库
 mongoose.connect(config.mongodb.uri);
 mongoose.connection.on('error', () => {
   throw new Error(`unable to connect to database: ${config.mongodb.uri}`);
@@ -16,10 +16,10 @@ mongoose.connection.on('error', () => {
 
 const app = express();
 
-// view engine setup
+// 配置视图引擎
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-// enable CORS - Cross Origin Resource Sharing
+// 启用跨域访问
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -40,15 +40,16 @@ app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
-app.use((err, req, res) => {
+// 异常处理
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  // res.locals.message = err.message;
+  // res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // res.status(err.status || 500);
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
+
+  res.status(err.status || 500).json(err.message);
 });
 
 module.exports = app;
