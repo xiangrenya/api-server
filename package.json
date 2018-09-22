@@ -3,26 +3,26 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/www",
-    "start": "PORT=4000 pm2 start ./bin/www"
+    "start": "supervisor ./bin/www",
+    "deploy": "PORT=4000 pm2 start ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.9",
-    "ejs": "~2.5.7",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.1.5",
-    "morgan": "~1.9.0",
-    "node-sass-middleware": "0.11.0"
+    "morgan": "~1.9.0"
   },
-  "description": "api server",
+  "description": "api service",
   "main": "app.js",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.12.0"
+    "eslint-plugin-import": "^2.12.0",
+    "supervisor": "^0.12.0"
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
   "author": "xiangrenya",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xiangrenya/api-server/issues"
+    "url": "https://github.com/xiangrenya/rest-api/issues"
   },
-  "homepage": "https://github.com/xiangrenya/api-server#readme"
+  "homepage": "https://github.com/xiangrenya/rest-api#readme"
 }
