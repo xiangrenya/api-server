@@ -18,4 +18,8 @@ router.post('/authentication', authentication);
 router.put('/users/:userId', userRequired, updateUser);
 router.delete('/users/:userId', userRequired, deleteUser);
 
+router.get('/checkToken', userRequired, (req, res, next) => {
+  res.send('有效的token');
+});
+
 module.exports = router;
