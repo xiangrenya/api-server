@@ -16,7 +16,7 @@ const getUserList = (req, res, next) => {
   page = Number(page);
   perPage = Number(perPage);
   const reg = new RegExp(userName, 'i');
-  User.find({ userName: { $regex: reg } })
+  User.find({ userName: reg })
     .sort({ createDate: -1 })
     .skip((page - 1) * perPage)
     .limit(perPage)
@@ -58,7 +58,8 @@ const deleteUser = (req, res, next) => {
  */
 const createUser = async (req, res, next) => {
   const { userName, email, password } = req.body;
-  User.findOne({ userName }).exec((err, user) => {
+  try {
+    const user = await User.findOne({ userName });
     if (user) return res.send('用户名已存在');
     const newUser = new User({
       ...req.body,
@@ -80,7 +81,9 @@ const createUser = async (req, res, next) => {
         token,
       });
     });
-  });
+  } catch (err) {
+    next(err);
+  }
 };
 
 /**
