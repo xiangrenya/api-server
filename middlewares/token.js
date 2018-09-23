@@ -8,11 +8,11 @@ const userRequired = (req, res, next) => {
     req.headers['x-access-token'] ||
     req.cookies.token;
   if (!token) {
-    res.status(401).send('Unauthorized: No token provided');
+    res.status(401).send('没有提供token');
   } else {
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
-        res.status(401).send('Unauthorized: Invalid token');
+        res.status(401).send('无效的token');
       } else {
         res.email = decoded.email;
         next();
